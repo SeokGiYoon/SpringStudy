@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: my-seokgi
+Implementation-Version: 1.0
+Built-By: seokgiyoon
+Implementation-Vendor-Id: net.seokgi
+Build-Jdk: 1.8.0_131
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/my-seokgi
+Created-By: Maven Integration for Eclipse
+
