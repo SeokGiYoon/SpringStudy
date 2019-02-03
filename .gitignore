@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 .classpath
 .project
 .settings
@@ -8,10 +9,12 @@
 
 ### STS ###
 .apt_generated
+=======
+>>>>>>> 59699357df23cfd96679ec41b6b3489c1175cb72
 .classpath
-.factorypath
 .project
 .settings
+<<<<<<< HEAD
 .springBeans
 .sts4-cache
 
@@ -29,3 +32,5 @@
 /.nb-gradle/
 /build/
 >>>>>>> parent of 9998c01... Revert "New Spring boot project"
+=======
+>>>>>>> 59699357df23cfd96679ec41b6b3489c1175cb72
