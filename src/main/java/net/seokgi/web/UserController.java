@@ -1,11 +1,16 @@
 package net.seokgi.web;
 
+import java.util.Optional;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import net.seokgi.domain.User;
@@ -17,6 +22,27 @@ public class UserController {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@GetMapping("/loginForm")
+	public String login() {
+		return "/user/login";
+	}
+	
+	@PostMapping("/login")
+	public String find(String userId, String password, HttpSession session) {
+		User user = userRepository.findByUserId(userId);
+		if(user == null) {
+			return "redirect:/users/loginForm";
+		}
+		
+		if(!password.equals(user.getPassword())) {
+			return "redirect:/users/loginForm";;
+		}
+		
+		session.setAttribute("user", user);
+		
+		return "redirect:/";
+	}
 	
 	@PostMapping("")
 	public String create(User user) {
@@ -37,18 +63,6 @@ public class UserController {
 		return "/user/form";
 	}
 	
-	@GetMapping("/login")
-	public String login() {
-		return "/user/login";
-	}
-	
-	@PostMapping("/login")
-	public String find(User user) {
-		System.out.println(user.toString());
-		
-		return "redirect:/users";
-	}
-	
 	@GetMapping("/profile")
 	public String profile(User user) {
 		return "/user/profile";
@@ -62,6 +76,20 @@ public class UserController {
 		return "/user/updateForm";
 	}
 	
+	@PutMapping("/{id}")
+	public String update(@PathVariable Long id, User newUser) {
+		Optional<User> userOptional = userRepository.findById(id);
+		User user = null;
+		if(userOptional.isPresent()) {
+			user = userOptional.get();
+		}
+		
+		user.update(newUser);
+		userRepository.save(user);
+		
+		
+		return "redirect:/users";
+	}
 	
 	
 	

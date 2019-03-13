@@ -61,9 +61,18 @@ public class User {
 		return email;
 	}
 
+	public void update(User newUser) {
+		this.password = newUser.getPassword();
+		this.name = newUser.getName();
+		this.email = newUser.getEmail();
+		
+	}
+
+	
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", password=" + password + ", name=" + name + ", email=" + email + "]";
 	}
+
 
 }
