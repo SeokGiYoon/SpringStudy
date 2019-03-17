@@ -29,12 +29,12 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public String find(String userId, String password, HttpSession session) {
+	public String login(String userId, String password, HttpSession session) {
 		User user = userRepository.findByUserId(userId);
-		if(user == null || !password.equals(user.getPassword())) {
+		if(user == null || !user.matchPassword(password)) {
 			return "redirect:/users/loginForm";
 		}
-		session.setAttribute("sessionUser", user);
+		session.setAttribute(HttpSessionUtills.USER_SESSION_KEY, user);
 		
 		return "redirect:/";
 	}
@@ -65,17 +65,21 @@ public class UserController {
 	
 	@GetMapping("/{id}/form")
 	public String updateForm(@PathVariable Long id, Model model, HttpSession session) {
-		User sessionUser = (User)session.getAttribute("sessionUser");
 		
-		if(sessionUser == null) {
-			return "redirect:/users/login";
+		if(!HttpSessionUtills.isLoginUser(session)) {
+			return "redirect:/users/loginForm";
 		}
 		
-		if(!id.equals(sessionUser.getId())) {
-			throw new IllegalStateException("자신의 정보만 수정할 수 있습니다.");
+		User sessionUser = HttpSessionUtills.getUserFromSession(session);
+		
+		System.out.println(sessionUser);
+		System.out.println(session.getAttribute(HttpSessionUtills.USER_SESSION_KEY));
+		
+		if(!sessionUser.matchId(id)) {
+			throw new IllegalStateException("you can't update the another user");
 		}
 		
-		Optional<User> op = userRepository.findById(sessionUser.getId());
+		Optional<User> op = userRepository.findById(id);
 		User user = null;
 		if(op.isPresent()) {
 			user = op.get();
@@ -87,17 +91,17 @@ public class UserController {
 	
 	@PutMapping("/{id}")
 	public String update(@PathVariable Long id, User updatedUser, HttpSession session) {
-		User sessionUser = (User)session.getAttribute("sessionUser");
-		
-		if(sessionUser == null) {
+		if(!HttpSessionUtills.isLoginUser(session)) {
 			return "redirect:/users/login";
 		}
 		
-		if(!id.equals(sessionUser.getId())) {
+		User sessionUser = HttpSessionUtills.getUserFromSession(session);
+		
+		if(!sessionUser.matchId(id)) {
 			throw new IllegalStateException("you can't update the another user");
 		}
 		
-		Optional<User> userOptional = userRepository.findById(sessionUser.getId());
+		Optional<User> userOptional = userRepository.findById(id);
 		User user = null;
 		if(userOptional.isPresent()) {
 			user = userOptional.get();
