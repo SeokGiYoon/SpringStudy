@@ -12,6 +12,8 @@
 	<groupId>net.seokgi</groupId>
 	<artifactId>my-seokgi</artifactId>
 	<version>1.0</version>
+	<packaging>war</packaging>
+	
 	<name>my-seokgi</name>
 	<description>seokgi QNA</description>
 
@@ -33,6 +35,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
