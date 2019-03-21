@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MySeokgiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MySeokgiApplication.class, args);
+		SpringApplication.run(MySeokgiApplication.class);
 		
 		
 	}
